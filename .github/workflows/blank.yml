@@ -30,7 +30,7 @@ jobs:
         token: ${{ secrets.VAULT_TOKEN }}
         caCertificate: ${{ secrets.VAULT_CA }}
         secrets: |
-          secret/data/hashiconf hashiconf | HASHICONF;
+          secret/hashiconf hashiconf | HASHICONF;
 
        # Runs a single command using the runners shell
     - name: Check env
