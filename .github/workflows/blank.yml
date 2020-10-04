@@ -34,4 +34,6 @@ jobs:
 
        # Runs a single command using the runners shell
     - name: Check env
-      run: echo $HASHICONF
+      run: export TEST=$HASHICONF
+    - name: Check env
+      run: echo ${TEST}
