@@ -30,7 +30,7 @@ jobs:
     - name: Sleeping because AWS IAM is eventually consistent ¯\_(ツ)_/¯
       run: sleep 10
 
-    - name: App: compile linux amd64
+    - name: Build linux amd64
       run: go build -a -o .build/pizza_${GOOS}_${GOARCH}
       env:
         GO111MODULE: on
@@ -38,7 +38,7 @@ jobs:
         GOOS: linux
         GOARCH: amd64
 
-    - name: App: compile darwin amd64
+    - name: Build darwin amd64
       run: go build -a -o .build/pizza_${GOOS}_${GOARCH}
       env:
         GO111MODULE: on
