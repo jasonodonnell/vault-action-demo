@@ -26,14 +26,14 @@ jobs:
       uses: hashicorp/vault-action@v2.0.1
       with:
         url: https://vault.vault.svc.cluster.local:8200
-        method: token
-        token: ${{ secrets.VAULT_TOKEN }}
+        method: github
+        githubToken: ${{ secrets.GH_TOKEN }}
         caCertificate: ${{ secrets.VAULT_CA }}
         secrets: |
-          secret/hashiconf hashiconf | HASHICONF;
+          aws/roles/s3 access_key | AWS_ACCESS_KEY_ID;
+          aws/roles/s3 secret_key | AWS_SECRET_ACCESS_KEY;
 
-       # Runs a single command using the runners shell
     - name: Check env
-      run: export TEST=$HASHICONF
+      run: echo ${AWS_ACCESS_KEY_ID}
     - name: Check env
-      run: echo ${TEST}
+      run: echo ${AWS_SECRET_ACCESS_KEY}
