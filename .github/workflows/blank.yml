@@ -30,8 +30,8 @@ jobs:
         githubToken: ${{ secrets.GH_TOKEN }}
         caCertificate: ${{ secrets.VAULT_CA }}
         secrets: |
-          aws/roles/s3 access_key | AWS_ACCESS_KEY_ID;
-          aws/roles/s3 secret_key | AWS_SECRET_ACCESS_KEY;
+          aws/creds/s3 access_key | AWS_ACCESS_KEY_ID;
+          aws/creds/s3 secret_key | AWS_SECRET_ACCESS_KEY;
 
     - name: Check env
       run: echo ${AWS_ACCESS_KEY_ID}
