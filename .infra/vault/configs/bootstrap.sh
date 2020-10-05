@@ -22,11 +22,7 @@ vault auth enable github
 vault write auth/github/config organization=${REPO_OWNER?}
 vault write auth/github/map/users/${GITHUB_USER?} value=app
 
-# Demo 1: Static Secrets
-vault secrets enable -path=secret/ kv
-vault kv put secret/hashiconf hashiconf=rocks
-
-# Demo 2: AWS
+# AWS
 vault secrets enable aws
 vault write aws/config/root \
     access_key=${AWS_ACCESS_KEY_ID?} \
@@ -46,7 +42,7 @@ vault write aws/roles/s3 policy=-<<EOF
          "Action":[
             "s3:ListBucket"
          ],
-         "Resource":"arn:aws:s3:::vault-action-demo"
+         "Resource":"arn:aws:s3:::${S3_BUCKET?}"
       },
       {
          "Effect":"Allow",
@@ -54,7 +50,7 @@ vault write aws/roles/s3 policy=-<<EOF
             "s3:PutObject",
             "s3:GetObject"
          ],
-         "Resource":"arn:aws:s3:::vault-action-demo/*"
+         "Resource":"arn:aws:s3:::${S3_BUCKET?}/*"
       }
    ]
 }

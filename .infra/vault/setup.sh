@@ -30,6 +30,12 @@ then
     exit 1
 fi
 
+if [[ -z ${S3_BUCKET} ]]
+then
+    echo "Error: S3_BUCKET env not set. Exiting.."
+    exit 1
+fi
+
 helm repo add hashicorp https://helm.releases.hashicorp.com
 helm repo update
 
@@ -51,6 +57,7 @@ kubectl create secret generic aws-creds \
     --from-literal=AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY_DEMO?} \
     --from-literal=REPO_OWNER=${REPO_OWNER?} \
     --from-literal=GITHUB_USER=${GITHUB_USER?} \
+    --from-literal=S3_BUCKET=${S3_BUCKET?} \
     --namespace=${NAMESPACE?}
 
 kubectl label secret demo-vault app=vault-agent-demo \

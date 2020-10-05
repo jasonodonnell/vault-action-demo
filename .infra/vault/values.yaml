@@ -20,6 +20,12 @@ server:
   - envName: AWS_SECRET_ACCESS_KEY
     secretName: aws-creds
     secretKey: AWS_SECRET_ACCESS_KEY
+  - envName: REPO_OWNER
+    secretName: aws-creds
+    secretKey: REPO_OWNER
+  - envName: GITHUB_USER
+    secretName: aws-creds
+    secretKey: GITHUB_USER
 
   extraEnvironmentVars:
     VAULT_CACERT: /vault/userconfig/tls-test-server/ca.crt

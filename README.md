@@ -72,6 +72,9 @@ export REPO_NAME='<NAME OF REPO>'
 # AWS creds that will be used by Vault to create IAM users.
 export AWS_ACCESS_KEY_ID="<ACCESS_KEY>"
 export AWS_SECRET_ACCESS_KEY="<SECRET_KEY>"
+
+# S3 bucket name for IAM policy Vault will use for demo
+export S3_BUCKET="<BUCKET_NAME>"
 ```
 
 ### Build Runner
