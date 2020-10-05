@@ -14,7 +14,6 @@ jobs:
 
     - name: Import Secrets
       uses: hashicorp/vault-action@v2.0.1
-      id: creds
       with:
         url: https://vault.vault.svc.cluster.local:8200
         method: github
@@ -25,7 +24,7 @@ jobs:
           aws/creds/s3 secret_key | AWS_SECRET_ACCESS_KEY;
 
     - name: Create Test File
-      run: echo "${AWS_ACCESS_KEY_ID}" > test.txt && cat test.txt
+      run: touch test.txt
 
     - name: Upload to S3
       run: |
