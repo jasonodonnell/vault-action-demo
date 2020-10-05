@@ -91,8 +91,16 @@ in a crash loop.
 
 ### Deploy Runner
 
+First, edit the `deployment.yaml` file with the appropriate image
+name and tag you used above:
+
 ```bash
 cd .infra/runner
+vim deployment.yaml
+```
+
+Deploy the runner!
+```
 ./setup.sh
 ```
 
