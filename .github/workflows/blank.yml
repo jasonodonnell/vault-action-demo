@@ -24,6 +24,7 @@ jobs:
 
     - name: Import Secrets
       uses: hashicorp/vault-action@v2.0.1
+      id: creds
       with:
         url: https://vault.vault.svc.cluster.local:8200
         method: github
@@ -33,7 +34,16 @@ jobs:
           aws/creds/s3 access_key | AWS_ACCESS_KEY_ID;
           aws/creds/s3 secret_key | AWS_SECRET_ACCESS_KEY;
 
-    - name: Check env
-      run: echo ${AWS_ACCESS_KEY_ID}
-    - name: Check env
-      run: echo ${AWS_SECRET_ACCESS_KEY}
+    - name: Create Test File
+      run: echo "Test" /tmp/test.txt
+
+    - name: S3 Sync
+      uses: jakejarvis/s3-sync-action@v0.5.1
+      with:
+        args: --acl public-read --follow-symlinks --delete
+      env:
+        AWS_S3_BUCKET: "vault-action-demo"
+        AWS_ACCESS_KEY_ID: ${{ steps.creds.outputs.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ steps.creds.outputs.AWS_SECRET_ACCESS_KEY }}
+        AWS_REGION: 'us-west-2'
+        SOURCE_DIR: '/tmp/test.txt'
