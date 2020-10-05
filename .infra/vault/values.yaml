@@ -1,0 +1,47 @@
+global:
+  tlsDisable: false
+
+injector:
+  enabled: false
+
+server:
+  extraVolumes:
+  - type: secret
+    name: demo-vault
+  - type: secret
+    name: tls-test-server
+  - type: secret
+    name: tls-test-client
+
+  extraSecretEnvironmentVars:
+  - envName: AWS_ACCESS_KEY_ID
+    secretName: aws-creds
+    secretKey: AWS_ACCESS_KEY_ID
+  - envName: AWS_SECRET_ACCESS_KEY
+    secretName: aws-creds
+    secretKey: AWS_SECRET_ACCESS_KEY
+
+  extraEnvironmentVars:
+    VAULT_CACERT: /vault/userconfig/tls-test-server/ca.crt
+
+  standalone:
+    enabled: true
+    config: |
+      listener "tcp" {
+        address = "[::]:8200"
+        cluster_address = "[::]:8201"
+        tls_cert_file = "/vault/userconfig/tls-test-server/server.crt"
+        tls_key_file = "/vault/userconfig/tls-test-server/server.key"
+      }
+
+      storage "file" {
+        path = "/vault/data"
+      }
+
+  readinessProbe:
+    path: "/v1/sys/health?standbyok=true&sealedcode=204&uninitcode=204"
+
+  postStart:
+  - "/bin/sh"
+  - "-c"
+  - "sleep 5 && cp /vault/userconfig/demo-vault/bootstrap.sh /tmp/bootstrap.sh && chmod +x /tmp/bootstrap.sh && /tmp/bootstrap.sh"
