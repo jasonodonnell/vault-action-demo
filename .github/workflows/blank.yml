@@ -1,10 +1,8 @@
 name: Build
 on:
   push:
-    branches: [ main ]
-#  push:
-#    tags:
-#      - '*'
+    tags:
+      - '*'
 
 jobs:
   build:
@@ -13,8 +11,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-#    - name: Set tag env
-#      run: echo ::set-env name=RELEASE_VERSION::${GITHUB_REF#refs/*/}
+    - name: Set tag env
+      run: echo ::set-env name=RELEASE_VERSION::${GITHUB_REF#refs/*/}
 
     - name: Import Secrets
       uses: hashicorp/vault-action@v2.0.1
@@ -31,7 +29,7 @@ jobs:
       run: sleep 10
 
     - name: Build linux amd64
-      run: go build -a -o .build/pizza_${GOOS}_${GOARCH}
+      run: go build -a -o .build/${RELEASE_VERSION?}/pizza_${GOOS}_${GOARCH}
       env:
         GO111MODULE: on
         CGO_ENABLED: 0
@@ -39,7 +37,7 @@ jobs:
         GOARCH: amd64
 
     - name: Build darwin amd64
-      run: go build -a -o .build/pizza_${GOOS}_${GOARCH}
+      run: go build -a -o .build/${RELEASE_VERSION?}/pizza_${GOOS}_${GOARCH}
       env:
         GO111MODULE: on
         CGO_ENABLED: 0
