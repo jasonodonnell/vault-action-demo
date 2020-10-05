@@ -13,6 +13,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+#    - name: Set tag env
+#      run: echo ::set-env name=RELEASE_VERSION::${GITHUB_REF#refs/*/}
+
     - name: Import Secrets
       uses: hashicorp/vault-action@v2.0.1
       with:
@@ -27,12 +30,22 @@ jobs:
     - name: Sleeping because AWS IAM is eventually consistent ¯\_(ツ)_/¯
       run: sleep 10
 
-    - name: Create Test File
-      run: touch test.txt
+    - name: App: compile linux amd64
+      run: go build -a -o .build/pizza_${GOOS}_${GOARCH}
+      env:
+        GO111MODULE: on
+        CGO_ENABLED: 0
+        GOOS: linux
+        GOARCH: amd64
+
+    - name: App: compile darwin amd64
+      run: go build -a -o .build/pizza_${GOOS}_${GOARCH}
+      env:
+        GO111MODULE: on
+        CGO_ENABLED: 0
+        GOOS: darwin
+        GOARCH: amd64
 
     - name: Upload to S3
       run: |
-        aws s3 cp test.txt s3://vault-action-demo/test.txt
-
-    - name: Go version
-      run: go version
+        aws s3 sync .build/ s3://vault-action-demo
