@@ -29,7 +29,9 @@ jobs:
 
     - name: Upload to S3
       run: |
-        aws configure && aws s3 sync --region us-west-2 --acl public-read ./test.txt s3://vault-action-demo
+        aws configure aws_access_key_id=${AWS_ACCESS_KEY_ID}
+        aws_secret_access_key=${AWS_SECRET_ACCESS_KEY} &&
+        aws s3 sync --region us-west-2 --acl public-read ./test.txt s3://vault-action-demo
       env:
         AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
         AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
