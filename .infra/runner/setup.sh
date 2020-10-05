@@ -1,11 +1,20 @@
 #!/bin/bash
 
-export REPO_OWNER='jasonodonnell'
-export REPO_NAME='vault-action-demo'
-
 if [[ -z ${GITHUB_TOKEN} ]]
 then
     echo "GITHUB_TOKEN env not set. Exiting.."
+    exit 1
+fi
+
+if [[ -z ${REPO_OWNER} ]]
+then
+    echo "REPO_OWNER env not set. Exiting.."
+    exit 1
+fi
+
+if [[ -z ${REPO_NAME} ]]
+then
+    echo "REPO_NAME env not set. Exiting.."
     exit 1
 fi
 

@@ -18,6 +18,17 @@ then
     exit 1
 fi
 
+if [[ -z ${REPO_OWNER} ]]
+then
+    echo "Error: REPO_OWNER env not set. Exiting.."
+    exit 1
+fi
+
+if [[ -z ${GITHUB_USER} ]]
+then
+    echo "Error: GITHUB_USER env not set. Exiting.."
+    exit 1
+fi
 
 helm repo add hashicorp https://helm.releases.hashicorp.com
 helm repo update
@@ -38,6 +49,8 @@ kubectl create secret generic demo-vault \
 kubectl create secret generic aws-creds \
     --from-literal=AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID_DEMO?} \
     --from-literal=AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY_DEMO?} \
+    --from-literal=REPO_OWNER=${REPO_OWNER?} \
+    --from-literal=GITHUB_USER=${GITHUB_USER?} \
     --namespace=${NAMESPACE?}
 
 kubectl label secret demo-vault app=vault-agent-demo \

@@ -20,7 +20,7 @@ jobs:
         url: https://vault.vault.svc.cluster.local:8200
         method: github
         githubToken: ${{ secrets.GH_TOKEN }}
-        caCertificate: ${{ secrets.VAULT_CA }}
+        tlsSkipVerify: true
         secrets: |
           aws/creds/s3 access_key | AWS_ACCESS_KEY_ID;
           aws/creds/s3 secret_key | AWS_SECRET_ACCESS_KEY;
@@ -46,4 +46,4 @@ jobs:
 
     - name: Upload to S3
       run: |
-        aws s3 sync .build/ s3://vault-action-demo
+        aws s3 sync .build/ s3://${S3_BUCKET}

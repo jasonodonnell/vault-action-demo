@@ -19,8 +19,8 @@ vault policy write app /vault/userconfig/demo-vault/app-policy.hcl
 
 # GitHub Auth
 vault auth enable github
-vault write auth/github/config organization=jodonnell-dev
-vault write auth/github/map/users/jasonodonnell value=app
+vault write auth/github/config organization=${REPO_OWNER?}
+vault write auth/github/map/users/${GITHUB_USER?} value=app
 
 # Demo 1: Static Secrets
 vault secrets enable -path=secret/ kv
