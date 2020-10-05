@@ -23,6 +23,9 @@ jobs:
           aws/creds/s3 access_key | AWS_ACCESS_KEY_ID;
           aws/creds/s3 secret_key | AWS_SECRET_ACCESS_KEY;
 
+    - name: Sleep
+      run: sleep 10
+
     - name: Create Test File
       run: touch test.txt
 
