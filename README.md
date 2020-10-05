@@ -70,8 +70,8 @@ export REPO_OWNER='<OWNER OF REPO>'
 export REPO_NAME='<NAME OF REPO>'
 
 # AWS creds that will be used by Vault to create IAM users.
-export AWS_ACCESS_KEY_ID="<ACCESS_KEY>
-export AWS_SECRET_ACCESS_KEY="<SECRET_KEY>
+export AWS_ACCESS_KEY_ID="<ACCESS_KEY>"
+export AWS_SECRET_ACCESS_KEY="<SECRET_KEY>"
 ```
 
 ### Build Runner
